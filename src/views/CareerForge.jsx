@@ -156,8 +156,8 @@ export function LaptopModel({ onLaptopClick, isOpen }) {
         );
       }
 
-      // Step 4 — Scale: try [1.8, 1.8, 1.8]
-      const baseScale = 1.8;
+      // Step 4 — Scale: try [0.9, 0.9, 0.9]
+      const baseScale = 0.9;
       const targetScale = hovered && !isOpen ? baseScale * 1.05 : baseScale;
       modelRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 6 * delta);
     }
@@ -167,7 +167,7 @@ export function LaptopModel({ onLaptopClick, isOpen }) {
     <group
       ref={modelRef}
       position={[0, -0.5, 0]}
-      scale={[1.8, 1.8, 1.8]}
+      scale={[0.9, 0.9, 0.9]}
       onPointerOver={(e) => {
         e.stopPropagation();
         setHovered(true);
