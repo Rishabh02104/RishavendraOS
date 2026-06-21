@@ -210,7 +210,7 @@ export default function RecruiterMode({ onClose }: { onClose?: () => void }) {
                 <div className="flex items-center justify-between">
                   <span className="font-bold text-white text-sm">AI Job Agent</span>
                   <a
-                    href="https://github.com/Rishabh02104/AI_Job_Agent"
+                    href="https://frontend-two-sigma-88.vercel.app/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-accent hover:text-accent-secondary"

@@ -183,8 +183,12 @@ export default function AIJobAgent({ isOpen, setIsOpen }) {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         primaryLink={{
+          text: "Visit Live App →",
+          url: "https://frontend-two-sigma-88.vercel.app/",
+        }}
+        secondaryAction={{
           text: "View on GitHub →",
-          url: "https://github.com/Rishabh02104/AI_Job_Agent",
+          action: () => window.open("https://github.com/Rishabh02104/AI_Job_Agent", "_blank"),
         }}
       />
     </div>
