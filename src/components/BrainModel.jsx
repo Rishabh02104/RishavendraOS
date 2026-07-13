@@ -376,6 +376,16 @@ export default function BrainModel({
               isInspected={isInspected}
               recruiterOpen={recruiterOpen}
             />
+            {/* HIPPOCAMPUS (HireFlow) */}
+            <BrainHotspot
+              position={[-0.9, -0.15, -0.3]}
+              radius={0.35}
+              label="HIPPOCAMPUS"
+              projectName="HireFlow"
+              route="/hireflow"
+              isInspected={isInspected}
+              recruiterOpen={recruiterOpen}
+            />
           </>
         )}
       </group>

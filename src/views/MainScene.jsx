@@ -56,10 +56,10 @@ export default function MainScene({ isInspected, setIsInspected, onRecruiterClic
     { name: "CareerForge", tag: "ACTIVE", route: "/careerforge" },
     { name: "Road Detection", tag: "DONE", route: "/road-detection" },
     { name: "Secure Voting", tag: "RESEARCH", route: "/secure-voting" },
-    { name: "HireFlow", tag: "SHIPPED", route: "https://github.com/Rishabh02104/HireFlow" },
+    { name: "HireFlow", tag: "SHIPPED", route: "/hireflow" },
     { name: "AI Job Agent", tag: "ACTIVE", route: "/ai-job-agent" },
     { name: "Computer Vision", tag: "RESEARCH", route: "/computer-vision" },
-    { name: "Product Building", tag: "SHIPPED", route: "/product-building" },
+    { name: "Product Building", tag: "ACTIVE", route: "/product-building" },
     { name: "AI Systems", tag: "ACTIVE", route: "/ai-systems" },
   ], []);
 
@@ -244,11 +244,11 @@ export default function MainScene({ isInspected, setIsInspected, onRecruiterClic
           <span className="font-mono text-[8px] text-[#71717a] tracking-[0.2em] uppercase select-none">ACTIVITY</span>
           <div className="flex justify-start gap-8">
             <div className="flex flex-col select-none">
-              <span className="font-sans text-[22px] font-bold text-[#e4e4e7] leading-none">3</span>
+              <span className="font-sans text-[22px] font-bold text-[#e4e4e7] leading-none">9</span>
               <span className="font-mono text-[8px] text-[#71717a] mt-1">repos</span>
             </div>
             <div className="flex flex-col select-none">
-              <span className="font-sans text-[22px] font-bold text-[#e4e4e7] leading-none">2</span>
+              <span className="font-sans text-[22px] font-bold text-[#e4e4e7] leading-none">1</span>
               <span className="font-mono text-[8px] text-[#71717a] mt-1">shipped</span>
             </div>
           </div>

@@ -26,6 +26,7 @@ import ComputerVision, { NeuralNetwork } from "./views/ComputerVision";
 import ProductBuilding, { SystemArchitecture } from "./views/ProductBuilding";
 import AISystems, { IntelligenceSpine } from "./views/AISystems";
 import AIJobAgent, { AutonomousPipeline } from "./views/AIJobAgent";
+import HireFlow, { RecruitingFunnel } from "./views/HireFlow";
 
 // SYSTEM A — Star Field (3000 points):
 function StarField({ count = 3000 }) {
@@ -301,6 +302,10 @@ function SharedCameraController({ currentPath, panelOpen, isInspected }) {
       targetX = 0;
       targetY = 0.5;
       targetZ = panelOpen ? 4.1 : 2.6; // pull back +1.5 when panel is open
+    } else if (currentPath === "/hireflow") {
+      targetX = 0;
+      targetY = 0.5;
+      targetZ = panelOpen ? 4.15 : 2.65;
     }
 
     basePosition.current = { x: targetX, y: targetY, z: targetZ };
@@ -319,6 +324,7 @@ function SharedCameraController({ currentPath, panelOpen, isInspected }) {
         else if (currentPath === "/secure-voting") lookAtY = 0.5;
         else if (currentPath === "/computer-vision") lookAtY = 0.5;
         else if (currentPath === "/ai-job-agent") lookAtY = 0.5;
+        else if (currentPath === "/hireflow") lookAtY = 0.5;
         
         camera.lookAt(0, lookAtY, 0);
       },
@@ -546,6 +552,9 @@ function AppContent({ triggerRef, recruiterOpen, setRecruiterOpen }) {
             {currentPath === "/ai-job-agent" && !recruiterOpen && (
               <AutonomousPipeline onClick={() => setPanelOpen(true)} />
             )}
+            {currentPath === "/hireflow" && !recruiterOpen && (
+              <RecruitingFunnel onClick={() => setPanelOpen(true)} />
+            )}
           </Suspense>
 
           {/* Post Processing Cinematic Bloom, Vignette, and Chromatic Aberration */}
@@ -569,6 +578,7 @@ function AppContent({ triggerRef, recruiterOpen, setRecruiterOpen }) {
           <Route path="/product-building" element={<ProductBuilding isOpen={panelOpen} setIsOpen={setPanelOpen} />} />
           <Route path="/ai-systems" element={<AISystems isOpen={panelOpen} setIsOpen={setPanelOpen} />} />
           <Route path="/ai-job-agent" element={<AIJobAgent isOpen={panelOpen} setIsOpen={setPanelOpen} />} />
+          <Route path="/hireflow" element={<HireFlow isOpen={panelOpen} setIsOpen={setPanelOpen} />} />
           <Route path="*" element={<MainScene isInspected={isInspected} setIsInspected={setIsInspected} onRecruiterClick={() => setRecruiterOpen(true)} />} />
         </Routes>
       </div>
