@@ -34,6 +34,18 @@ function LinkedinIcon({ size = 12, className = "" }) {
   );
 }
 
+// Corner HUD brackets component
+function PanelBrackets() {
+  return (
+    <>
+      <div className="corner-bracket bracket-tl" />
+      <div className="corner-bracket bracket-tr" />
+      <div className="corner-bracket bracket-bl" />
+      <div className="corner-bracket bracket-br" />
+    </>
+  );
+}
+
 export default function MainScene({ isInspected, setIsInspected, onRecruiterClick }) {
   const triggerTransition = useCosmicTransition();
 
@@ -66,13 +78,13 @@ export default function MainScene({ isInspected, setIsInspected, onRecruiterClic
   const getTagClass = (tag) => {
     switch (tag) {
       case "ACTIVE":
-        return "bg-[#4ade80]/15 text-[#4ade80] border border-[#4ade80]/30";
+        return "bg-[#00E5FF]/10 text-[#00E5FF] border border-[#00E5FF]/20";
       case "DONE":
         return "bg-zinc-500/10 text-[#71717a] border border-zinc-500/20";
       case "RESEARCH":
-        return "bg-[#5ea8ff]/15 text-[#5ea8ff] border border-[#5ea8ff]/30";
+        return "bg-[#5ea8ff]/10 text-[#5ea8ff] border border-[#5ea8ff]/20";
       case "SHIPPED":
-        return "bg-[#a78bfa]/15 text-[#a78bfa] border border-[#a78bfa]/30";
+        return "bg-[#a78bfa]/10 text-[#a78bfa] border border-[#a78bfa]/20";
       default:
         return "";
     }
@@ -99,41 +111,102 @@ export default function MainScene({ isInspected, setIsInspected, onRecruiterClic
             transform: translateY(0);
           }
         }
+        @keyframes scanline {
+          0% { transform: translateY(-100%); }
+          100% { transform: translateY(100%); }
+        }
+        @keyframes blink-slow {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
         .bento-panel {
           animation: bentoFadeIn 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
           opacity: 0;
+          background: rgba(4, 2, 10, 0.7) !important;
+          border: 1px solid rgba(0, 229, 255, 0.08) !important;
+          border-radius: 8px !important;
+          box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6), inset 0 0 10px rgba(0, 229, 255, 0.01);
           backdrop-filter: none;
           box-sizing: border-box;
           pointer-events: auto;
-          transition: border-color 0.3s ease;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          position: relative;
         }
         .bento-panel:hover {
-          border-color: rgba(139, 92, 246, 0.3);
+          border-color: rgba(0, 229, 255, 0.4) !important;
+          box-shadow: 0 4px 30px rgba(0, 229, 255, 0.12), inset 0 0 15px rgba(0, 229, 255, 0.03);
         }
+        .corner-bracket {
+          position: absolute;
+          width: 5px;
+          height: 5px;
+          border-color: rgba(0, 229, 255, 0.5);
+          border-style: solid;
+          pointer-events: none;
+          transition: border-color 0.3s ease;
+        }
+        .bento-panel:hover .corner-bracket {
+          border-color: rgba(0, 229, 255, 1);
+        }
+        .bracket-tl { top: -1px; left: -1px; border-width: 1.5px 0 0 1.5px; }
+        .bracket-tr { top: -1px; right: -1px; border-width: 1.5px 1.5px 0 0; }
+        .bracket-bl { bottom: -1px; left: -1px; border-width: 0 0 1.5px 1.5px; }
+        .bracket-br { bottom: -1px; right: -1px; border-width: 0 1.5px 1.5px 0; }
+        
         .project-item {
           font-family: var(--font-space-grotesk), sans-serif;
           font-size: 12px;
-          color: #e4e4e7;
+          color: #a1a1aa;
           border-left: 2px solid transparent;
           transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
           cursor: pointer;
         }
         .project-item:hover {
-          color: #ffffff;
-          border-left-color: #a78bfa;
+          color: #00E5FF;
+          border-left-color: #00E5FF;
           padding-left: 8px;
-          text-shadow: 0 0 8px rgba(167, 139, 250, 0.4);
+          text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
+        }
+        .holo-scanner {
+          position: relative;
+          overflow: hidden;
+        }
+        .holo-scanner::after {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; right: 0; bottom: 0;
+          background: linear-gradient(
+            to bottom,
+            rgba(0, 229, 255, 0) 0%,
+            rgba(0, 229, 255, 0.15) 50%,
+            rgba(0, 229, 255, 0) 100%
+          );
+          background-size: 100% 20px;
+          animation: scanline 5s linear infinite;
+          pointer-events: none;
+        }
+        .hud-dot {
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          background-color: #00FF41;
+          box-shadow: 0 0 8px #00FF41;
+          display: inline-block;
+          animation: blink-slow 2s infinite;
         }
       `}</style>
 
       {/* PANEL 1 — TOP FULL WIDTH (headline bar) */}
       <div 
-        className="bento-panel col-span-1 md:col-span-3 md:row-start-1 bg-white/[0.03] border border-white/[0.06] rounded-[14px] flex items-center justify-between px-6 py-3 md:py-0 font-mono text-[11px] text-[#a78bfa] tracking-[0.12em]"
+        className="bento-panel col-span-1 md:col-span-3 md:row-start-1 flex items-center justify-between px-6 py-3 md:py-0 font-mono text-[11px] text-[#00E5FF] tracking-[0.12em]"
         style={{ animationDelay: "0ms" }}
       >
-        <div className="flex-1 select-none pr-4">
-          {typedText}
-          <span className="animate-pulse ml-0.5 text-[#5ea8ff]">|</span>
+        <PanelBrackets />
+        <div className="flex items-center gap-2.5 flex-1 select-none pr-4">
+          <span className="hud-dot" />
+          <span className="text-[9px] text-[#00E5FF]/40 mr-1 select-none">[0x7F_SYSTEM]</span>
+          <span>{typedText}</span>
+          <span className="animate-pulse ml-0.5 text-[#5ea8ff]">_</span>
         </div>
         <button
           onClick={onRecruiterClick}
@@ -146,9 +219,12 @@ export default function MainScene({ isInspected, setIsInspected, onRecruiterClic
 
       {/* PANEL 2 — LEFT TOP (Project Titles) */}
       <div 
-        className="bento-panel col-span-1 md:col-start-1 md:row-start-2 bg-white/[0.03] border border-white/[0.06] rounded-[14px] p-5 flex flex-col gap-[14px] overflow-y-auto"
+        className="bento-panel col-span-1 md:col-start-1 md:row-start-2 p-5 flex flex-col gap-[14px] overflow-y-auto"
         style={{ animationDelay: "80ms" }}
       >
+        <PanelBrackets />
+        <span className="absolute top-2 right-3 font-mono text-[7px] text-[#00E5FF]/30 tracking-widest uppercase pointer-events-none">[ NET_MAP.SYS ]</span>
+        <span className="font-mono text-[8px] text-[#71717a] tracking-[0.25em] uppercase select-none mb-1">COGNITIVE_DIRECTORY</span>
         {projects.map((project, idx) => (
           <div
             key={idx}
@@ -165,41 +241,45 @@ export default function MainScene({ isInspected, setIsInspected, onRecruiterClic
 
       {/* PANEL 4 — RIGHT TOP (Identity card) */}
       <div 
-        className="bento-panel col-span-1 md:col-start-3 md:row-start-2 bg-white/[0.03] border border-white/[0.06] rounded-[14px] p-4 font-mono flex flex-col justify-between"
+        className="bento-panel col-span-1 md:col-start-3 md:row-start-2 p-4 font-mono flex flex-col justify-between"
         style={{ animationDelay: "160ms" }}
       >
+        <PanelBrackets />
+        <span className="absolute top-2 right-3 font-mono text-[7px] text-[#00E5FF]/30 tracking-widest uppercase pointer-events-none">[ IDENT_v2.0 ]</span>
         <div className="flex flex-col gap-2">
-          <img 
-            src="/assets/Rishabh.png" 
-            alt="Rishavendra Sharma" 
-            className="w-full h-auto rounded-lg object-contain border border-white/10 mb-3 select-none"
-          />
-          <div className="text-[11px] text-[#e4e4e7] leading-[1.9] select-text">
-            <div><span className="text-[#5ea8ff]">&gt;</span> Rishavendra Sharma</div>
-            <div><span className="text-[#5ea8ff]">&gt;</span> B.Tech CSE · 2026</div>
-            <div><span className="text-[#5ea8ff]">&gt;</span> Gujarat, India</div>
-            <div><span className="text-[#5ea8ff]">&gt;</span> Open to Software, frontend & AI developer role</div>
+          <div className="holo-scanner rounded-lg overflow-hidden border border-white/5 bg-[#030108] mb-2 select-none relative">
+            <img 
+              src="/assets/Rishabh.png" 
+              alt="Rishavendra Sharma" 
+              className="w-full h-auto object-contain select-none max-h-[160px] mx-auto block"
+            />
+          </div>
+          <div className="text-[10px] text-[#e4e4e7] leading-[1.8] select-text">
+            <div><span className="text-[#00E5FF]">&gt;</span> Rishavendra Sharma</div>
+            <div><span className="text-[#00E5FF]">&gt;</span> B.Tech CSE · 2026</div>
+            <div><span className="text-[#00E5FF]">&gt;</span> Gujarat, India</div>
+            <div><span className="text-[#00E5FF]">&gt;</span> Open to Software, frontend & AI developer role<span className="animate-pulse text-[#00E5FF]">_</span></div>
           </div>
         </div>
         
         {/* GH / LI Buttons */}
-        <div className="flex gap-2 mt-4">
+        <div className="flex gap-2 mt-4 z-10 pointer-events-auto">
           <a
             href="https://github.com/Rishabh02104"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 text-white text-[10px] transition-all"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-white/5 border border-white/10 hover:bg-[#00E5FF]/10 hover:border-[#00E5FF] text-white text-[10px] transition-all cursor-pointer"
           >
-            <GithubIcon size={11} className="text-[#a1a1aa]" />
+            <GithubIcon size={11} className="text-[#00E5FF]" />
             GitHub
           </a>
           <a
             href="https://www.linkedin.com/in/rishavendra-sharma-94b8ba286/"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 text-white text-[10px] transition-all"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-white/5 border border-white/10 hover:bg-[#00E5FF]/10 hover:border-[#00E5FF] text-white text-[10px] transition-all cursor-pointer"
           >
-            <LinkedinIcon size={11} className="text-[#a1a1aa]" />
+            <LinkedinIcon size={11} className="text-[#00E5FF]" />
             LinkedIn
           </a>
         </div>
@@ -207,16 +287,18 @@ export default function MainScene({ isInspected, setIsInspected, onRecruiterClic
 
       {/* PANEL 5 — LEFT BOTTOM (Tech Stack) */}
       <div 
-        className="bento-panel col-span-1 md:col-start-1 md:row-start-3 bg-white/[0.03] border border-white/[0.06] rounded-[14px] p-3.5 flex flex-col gap-2 justify-center"
+        className="bento-panel col-span-1 md:col-start-1 md:row-start-3 p-3.5 flex flex-col gap-2 justify-center"
         style={{ animationDelay: "240ms" }}
       >
-        <span className="font-mono text-[8px] text-[#71717a] tracking-[0.2em] uppercase select-none">STACK</span>
+        <PanelBrackets />
+        <span className="absolute top-2 right-3 font-mono text-[7px] text-[#00E5FF]/30 tracking-widest uppercase pointer-events-none">[ CORE_STACK ]</span>
+        <span className="font-mono text-[8px] text-[#71717a] tracking-[0.2em] uppercase select-none">STACK_REGISTRY</span>
         <div className="flex flex-col gap-2">
           <div className="flex flex-wrap gap-1">
             {["Next.js", "TypeScript", "Python", "FastAPI"].map((tech, idx) => (
               <span 
                 key={idx} 
-                className="font-mono text-[8px] text-[#5ea8ff] bg-[#5ea8ff]/[0.08] border border-[#5ea8ff]/20 rounded-full px-2 py-0.5 whitespace-nowrap select-none"
+                className="font-mono text-[8px] text-[#00E5FF] bg-[#00E5FF]/[0.08] border border-[#00E5FF]/20 rounded px-2 py-0.5 whitespace-nowrap select-none"
               >
                 {tech}
               </span>
@@ -226,7 +308,7 @@ export default function MainScene({ isInspected, setIsInspected, onRecruiterClic
             {["Supabase", "Three.js", "OpenCV", "Groq"].map((tech, idx) => (
               <span 
                 key={idx} 
-                className="font-mono text-[8px] text-[#5ea8ff] bg-[#5ea8ff]/[0.08] border border-[#5ea8ff]/20 rounded-full px-2 py-0.5 whitespace-nowrap select-none"
+                className="font-mono text-[8px] text-[#00E5FF] bg-[#00E5FF]/[0.08] border border-[#00E5FF]/20 rounded px-2 py-0.5 whitespace-nowrap select-none"
               >
                 {tech}
               </span>
@@ -237,11 +319,13 @@ export default function MainScene({ isInspected, setIsInspected, onRecruiterClic
 
       {/* PANEL 7 — RIGHT BOTTOM (GitHub / Stats) */}
       <div 
-        className="bento-panel col-span-1 md:col-start-3 md:row-start-3 bg-white/[0.03] border border-white/[0.06] rounded-[14px] p-3.5 flex flex-col justify-between gap-3"
+        className="bento-panel col-span-1 md:col-start-3 md:row-start-3 p-3.5 flex flex-col justify-between gap-3"
         style={{ animationDelay: "320ms" }}
       >
+        <PanelBrackets />
+        <span className="absolute top-2 right-3 font-mono text-[7px] text-[#00E5FF]/30 tracking-widest uppercase pointer-events-none">[ STATS_LOBE ]</span>
         <div className="flex flex-col gap-2">
-          <span className="font-mono text-[8px] text-[#71717a] tracking-[0.2em] uppercase select-none">ACTIVITY</span>
+          <span className="font-mono text-[8px] text-[#71717a] tracking-[0.2em] uppercase select-none">TELEMETRY_STATISTICS</span>
           <div className="flex justify-start gap-8">
             <div className="flex flex-col select-none">
               <span className="font-sans text-[22px] font-bold text-[#e4e4e7] leading-none">9</span>
@@ -258,7 +342,7 @@ export default function MainScene({ isInspected, setIsInspected, onRecruiterClic
           href="https://github.com/Rishabh02104"
           target="_blank"
           rel="noopener noreferrer"
-          className="w-full text-left text-[10px] text-[#5ea8ff] hover:text-[#7ee7ff] border-b border-[#5ea8ff]/30 hover:border-[#7ee7ff] pb-0.5 transition-all select-none font-mono"
+          className="w-full text-left text-[10px] text-[#00E5FF] hover:text-[#7ee7ff] border-b border-[#00E5FF]/30 hover:border-[#7ee7ff] pb-0.5 transition-all select-none font-mono"
         >
           github.com/Rishabh02104 →
         </a>
