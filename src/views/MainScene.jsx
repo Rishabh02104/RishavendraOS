@@ -172,7 +172,7 @@ export default function MainScene({ isInspected, setIsInspected, onRecruiterClic
           <img 
             src="/assets/Rishabh.png" 
             alt="Rishavendra Sharma" 
-            className="w-full h-[520px] rounded-lg object-contain border border-white/10 mb-3 select-none"
+            className="w-full h-auto rounded-lg object-contain border border-white/10 mb-3 select-none"
           />
           <div className="text-[11px] text-[#e4e4e7] leading-[1.9] select-text">
             <div><span className="text-[#5ea8ff]">&gt;</span> Rishavendra Sharma</div>
