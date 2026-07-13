@@ -251,7 +251,7 @@ export default function MainScene({ isInspected, setIsInspected, onRecruiterClic
             <img 
               src="/assets/Rishabh.png" 
               alt="Rishavendra Sharma" 
-              className="w-full h-auto object-contain select-none max-h-[160px] mx-auto block"
+              className="w-full h-auto object-contain select-none mx-auto block"
             />
           </div>
           <div className="text-[10px] text-[#e4e4e7] leading-[1.8] select-text">

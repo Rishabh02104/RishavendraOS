@@ -417,7 +417,7 @@ function AppContent({ triggerRef, recruiterOpen, setRecruiterOpen }) {
   return (
     <div 
       className={isHome 
-        ? "grid grid-cols-1 md:grid-cols-[200px_1fr_200px] grid-rows-none md:grid-rows-[56px_1fr_140px] gap-[10px] p-[10px] h-auto md:h-screen w-full md:w-screen bg-[#04020a] overflow-y-auto md:overflow-hidden text-white font-sans relative"
+        ? "grid grid-cols-1 md:grid-cols-[200px_1fr_280px] grid-rows-none md:grid-rows-[56px_1fr_140px] gap-[10px] p-[10px] h-auto md:h-screen w-full md:w-screen bg-[#04020a] overflow-y-auto md:overflow-hidden text-white font-sans relative"
         : "relative w-full h-screen overflow-hidden bg-[#080808] font-sans selection:bg-[#8b5cf6]/30 selection:text-white"
       }
     >
