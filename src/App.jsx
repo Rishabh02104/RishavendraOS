@@ -345,11 +345,60 @@ function SharedCameraController({ currentPath, panelOpen, isInspected }) {
   return null;
 }
 
+function QuotesOverlay() {
+  const quotes = useMemo(() => [
+    "Data quality matters more than model complexity.",
+    "Build systems, not just features.",
+    "Every project is evidence of how I think.",
+    "Curiosity → Learning → Building → Impact."
+  ], []);
+
+  const [quoteIndex, setQuoteIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setQuoteIndex((prev) => (prev + 1) % quotes.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [quotes]);
+
+  return (
+    <>
+      <style>{`
+        @keyframes fadeInOut {
+          0%, 100% { opacity: 0; transform: translate(-50%, 5px); }
+          12%, 88% { opacity: 1; transform: translate(-50%, 0); }
+        }
+        .quote-overlay {
+          position: absolute;
+          bottom: 16px;
+          left: 50%;
+          transform: translateX(-50%);
+          font-family: var(--font-space-grotesk), sans-serif;
+          font-size: 12px;
+          font-style: italic;
+          color: rgba(167,139,250,0.5);
+          text-align: center;
+          width: 80%;
+          max-width: 80%;
+          pointer-events: none;
+          z-index: 10;
+          animation: fadeInOut 4s ease-in-out infinite;
+        }
+      `}</style>
+      <div className="quote-overlay">
+        "{quotes[quoteIndex]}"
+      </div>
+    </>
+  );
+}
+
 function AppContent({ triggerRef, recruiterOpen, setRecruiterOpen }) {
   const location = useLocation();
   const currentPath = location.pathname;
   const [panelOpen, setPanelOpen] = useState(false);
   const [isInspected, setIsInspected] = useState(false);
+  const isHome = currentPath === "/";
 
   // Synchronize route changes to default state
   useEffect(() => {
@@ -360,25 +409,35 @@ function AppContent({ triggerRef, recruiterOpen, setRecruiterOpen }) {
   }, [currentPath]);
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-[#080808] font-sans selection:bg-[#8b5cf6]/30 selection:text-white">
+    <div 
+      className={isHome 
+        ? "grid grid-cols-1 md:grid-cols-[200px_1fr_200px] grid-rows-none md:grid-rows-[56px_1fr_140px] gap-[10px] p-[10px] h-auto md:h-screen w-full md:w-screen bg-[#04020a] overflow-y-auto md:overflow-hidden text-white font-sans relative"
+        : "relative w-full h-screen overflow-hidden bg-[#080808] font-sans selection:bg-[#8b5cf6]/30 selection:text-white"
+      }
+    >
       {/* Custom Particle cursor */}
       <CustomCursor />
 
-      {/* Persistent global Navigation Bar */}
-      <Navbar onRecruiterClick={() => setRecruiterOpen(true)} />
+      {/* Persistent global Navigation Bar - hidden on home page */}
+      {!isHome && <Navbar onRecruiterClick={() => setRecruiterOpen(true)} />}
 
       {/* Shared Canvas Container - always mounted */}
-      <div className={`canvas-container absolute inset-y-0 left-0 z-0 h-full ${panelOpen ? "panel-open" : ""}`}>
+      <div 
+        className={isHome 
+          ? "col-span-1 md:col-start-2 md:row-start-2 md:row-end-4 rounded-[18px] border border-[rgba(139,92,246,0.2)] bg-[#04020a] overflow-hidden relative z-0 pointer-events-auto h-[50vh] md:h-full w-full"
+          : `canvas-container absolute inset-y-0 left-0 z-0 h-full ${panelOpen ? "panel-open" : ""}`
+        }
+      >
         <Canvas
           camera={{ position: [0, 0.5, 5.8], fov: 45 }}
           style={{ cursor: "none" }}
         >
           <CanvasResizeMonitor />
-          {/* Pure dark gray background */}
-          <color attach="background" args={["#080808"]} />
+          {/* Pure dark gray/black background */}
+          <color attach="background" args={[isHome ? "#04020a" : "#080808"]} />
 
           {/* Volumetric ambient fog layer */}
-          <fog attach="fog" args={["#080808", 4.5, 12]} />
+          <fog attach="fog" args={[isHome ? "#04020a" : "#080808", 4.5, 12]} />
 
           {/* Ambient Lighting based on current page */}
           <ambientLight intensity={recruiterOpen ? 0.25 : (currentPath === "/road-detection" ? 0 : (currentPath === "/careerforge" ? 0.4 : 0.25))} />
@@ -496,12 +555,13 @@ function AppContent({ triggerRef, recruiterOpen, setRecruiterOpen }) {
             <ChromaticAberration offset={new THREE.Vector2(0.0012, 0.0012)} />
           </EffectComposer>
         </Canvas>
+        {isHome && <QuotesOverlay />}
       </div>
 
       {/* HTML overlay layer */}
-      <div className="absolute inset-0 z-10 pointer-events-none w-full h-full">
+      <div className={isHome ? "contents" : "absolute inset-0 z-10 pointer-events-none w-full h-full"}>
         <Routes>
-          <Route path="/" element={<MainScene isInspected={isInspected} setIsInspected={setIsInspected} />} />
+          <Route path="/" element={<MainScene isInspected={isInspected} setIsInspected={setIsInspected} onRecruiterClick={() => setRecruiterOpen(true)} />} />
           <Route path="/careerforge" element={<CareerForge isOpen={panelOpen} setIsOpen={setPanelOpen} />} />
           <Route path="/road-detection" element={<RoadDetection isOpen={panelOpen} setIsOpen={setPanelOpen} />} />
           <Route path="/secure-voting" element={<SecureVoting isOpen={panelOpen} setIsOpen={setPanelOpen} />} />
@@ -509,7 +569,7 @@ function AppContent({ triggerRef, recruiterOpen, setRecruiterOpen }) {
           <Route path="/product-building" element={<ProductBuilding isOpen={panelOpen} setIsOpen={setPanelOpen} />} />
           <Route path="/ai-systems" element={<AISystems isOpen={panelOpen} setIsOpen={setPanelOpen} />} />
           <Route path="/ai-job-agent" element={<AIJobAgent isOpen={panelOpen} setIsOpen={setPanelOpen} />} />
-          <Route path="*" element={<MainScene isInspected={isInspected} setIsInspected={setIsInspected} />} />
+          <Route path="*" element={<MainScene isInspected={isInspected} setIsInspected={setIsInspected} onRecruiterClick={() => setRecruiterOpen(true)} />} />
         </Routes>
       </div>
 
