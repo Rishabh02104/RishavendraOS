@@ -178,7 +178,7 @@ export default function MainScene({ isInspected, setIsInspected, onRecruiterClic
             <div><span className="text-[#5ea8ff]">&gt;</span> Rishavendra Sharma</div>
             <div><span className="text-[#5ea8ff]">&gt;</span> B.Tech CSE · 2026</div>
             <div><span className="text-[#5ea8ff]">&gt;</span> Gujarat, India</div>
-            <div><span className="text-[#5ea8ff]">&gt;</span> Open to Software, frontend, AI developer role</div>
+            <div><span className="text-[#5ea8ff]">&gt;</span> Open to Software, frontend & AI developer role</div>
           </div>
         </div>
         
